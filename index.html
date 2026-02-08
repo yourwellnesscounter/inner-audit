@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YWC Phase 1: The Inner Audit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #008080;
+            --deep-teal: #006666;
+            --soft-white: #fdfbf7;
+            --text-black: #000000;
+        }
+        body {
+            background-color: var(--primary-teal);
+            color: var(--text-black);
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-black);
+        }
+        .content-card {
+            background-color: var(--soft-white);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .audit-input {
+            background: transparent;
+            border-bottom: 2px solid var(--primary-teal);
+            width: 100%;
+            padding: 12px 0;
+            margin-bottom: 1.5rem;
+            outline: none;
+            color: var(--text-black);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .audit-input:focus {
+            border-bottom-color: var(--deep-teal);
+        }
+        .sparkle-btn {
+            background-color: var(--deep-teal);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .sparkle-btn:hover {
+            background-color: var(--text-black);
+            transform: translateY(-1px);
+        }
+        .spinner {
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 2px solid #fff;
+            width: 14px;
+            height: 14px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; padding: 0 !important; }
+            .content-card { box-shadow: none !important; border: none !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            .max-w-3xl { max-width: 100% !important; }
+            .audit-input { border-bottom: 1px solid #ccc !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4 md:py-16">
+
+    <!-- Floating Action Button for PDF Download -->
+    <div class="no-print fixed bottom-8 right-8 z-50">
+        <button onclick="window.print()" class="flex items-center gap-2 bg-black text-white px-6 py-3 rounded-full shadow-2xl hover:bg-teal-900 transition-all font-bold text-xs uppercase tracking-widest">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span>Download PDF</span>
+        </button>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+        <!-- Main Content Card -->
+        <div class="content-card p-6 md:p-12 space-y-12">
+            
+            <!-- Header -->
+            <header class="text-center space-y-4 border-b border-gray-100 pb-8 relative">
+                <p class="text-xs uppercase tracking-[0.3em] font-bold text-teal-700">Your Wellness Counter (YWC) 2026</p>
+                <h1 class="text-4xl md:text-5xl font-bold">The Inner Audit</h1>
+                <p class="italic text-gray-600">Phase 1: Under Pressure — Understanding the Inner Load</p>
+            </header>
+
+            <!-- 1. The Mission -->
+            <section class="space-y-6">
+                <div class="flex items-center gap-4">
+                    <span class="bg-teal-800 text-white w-8 h-8 flex items-center justify-center rounded-full font-bold">1</span>
+                    <h2 class="text-2xl font-bold italic">The Mission</h2>
+                </div>
+                <div class="space-y-4 text-sm leading-relaxed">
+                    <p><strong>The Mission:</strong> Your Wellness Counter (YWC) is a student-led wellness platform that bridges the link between psychology and daily living. This event, "Under Pressure," is designed to help you decouple your worth from your productivity. Our goal is to move from self-blame to self-observation, identifying the "Inner Load" we carry before we attempt to fix our external habits.</p>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-teal-800 space-y-3">
+                        <p class="font-bold uppercase tracking-wider text-[10px] text-teal-900">Ethical Guardrails & Disclaimer</p>
+                        <ul class="space-y-2 list-disc pl-4 text-xs italic text-gray-700">
+                            <li><strong>Not a Clinical Substitute:</strong> This audit and the accompanying X Space dialogue are for educational and self-reflective purposes only. They do not constitute therapy or clinical diagnosis.</li>
+                            <li><strong>Your Safety First:</strong> Self-reflection can sometimes bring up difficult emotions. If at any point you feel overwhelmed, please stop the audit, take a break, and prioritize your immediate safety.</li>
+                            <li><strong>Privacy:</strong> This is a private workbook. You will never be asked to share your answers publicly. This is a space for radical honesty between you and yourself.</li>
+                            <li><strong>Professional Support:</strong> If you are in a crisis or require professional mental health support, please contact a licensed psychologist or a mental health emergency transition service in your area.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. The Audit -->
+            <section class="space-y-12">
+                <div class="flex items-center gap-4">
+                    <span class="bg-teal-800 text-white w-8 h-8 flex items-center justify-center rounded-full font-bold">2</span>
+                    <h2 class="text-2xl font-bold italic">The Audit: Top 8 Reflective Questions</h2>
+                </div>
+
+                <!-- Part 1 -->
+                <div class="space-y-8">
+                    <h3 class="text-xl font-bold border-b border-gray-100 pb-2">Part 1: The Mirror <span class="text-sm font-normal text-gray-500 italic">(Current Capacity)</span></h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block font-semibold mb-2 text-sm">Question 1: The Mask</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">If I stopped "performing" success or stability for 24 hours, what is the very first thing my body or mind would demand?</p>
+                            <input type="text" id="input-mask" class="audit-input" placeholder="Reflect here...">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2 text-sm">Question 2: The Invisible List</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">What are three things currently on my "plate" that I didn't actually choose for myself, but I feel obligated to carry?</p>
+                            <input type="text" id="input-plate" class="audit-input" placeholder="List them here...">
+                        </div>
+                        <div class="no-print flex justify-center">
+                            <button id="btn-analyze" onclick="getReflectiveInsight()" class="sparkle-btn flex items-center gap-2 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest">
+                                <span>✨ Get Reflective Insight</span>
+                            </button>
+                        </div>
+                        <div id="ai-insight-result" class="hidden p-4 rounded bg-teal-50 border border-teal-100 text-sm italic text-gray-800"></div>
+                    </div>
+                </div>
+
+                <!-- Part 2 -->
+                <div class="space-y-8">
+                    <h3 class="text-xl font-bold border-b border-gray-100 pb-2">Part 2: The Body <span class="text-sm font-normal text-gray-500 italic">(Locating the Stress)</span></h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block font-semibold mb-2 text-sm">Question 3: The Physical Alarm</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">When I check my bank balance or look at my to-do list, where in my body do I feel it first? (e.g., tight jaw, heavy chest, shallow breathing, restless legs).</p>
+                            <input type="text" id="input-alarm" class="audit-input" placeholder="Locate the tension...">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2 text-sm">Question 4: The Low-Battery Signal</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">What is my body’s specific "warning light" that tells me I have moved from "working hard" to "operating on empty"?</p>
+                            <input type="text" id="input-battery" class="audit-input" placeholder="Identify your signal...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 3 -->
+                <div class="space-y-8">
+                    <h3 class="text-xl font-bold border-b border-gray-100 pb-2">Part 3: The Roots <span class="text-sm font-normal text-gray-500 italic">(The Survival Story)</span></h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block font-semibold mb-2 text-sm">Question 5: The Family Script</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">What is one unspoken rule about "duty" or "working hard" that I learned from my family?</p>
+                            <input type="text" id="input-script" class="audit-input" placeholder="The inherited rule...">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2 text-sm">Question 6: The Survival Mode</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">When the pressure in Nigeria gets too loud, what is my default survival mode?</p>
+                            <div class="grid grid-cols-1 gap-4 mt-4 no-print">
+                                <label class="flex flex-col gap-1 cursor-pointer p-4 rounded border border-gray-200 hover:border-teal-800 transition-colors">
+                                    <div class="flex items-center gap-2">
+                                        <input type="radio" name="survival" value="Avoidance" class="accent-teal-800"> 
+                                        <span class="font-bold text-sm">Avoidance</span>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-5">You stop checking bank apps, emails, and notifications to tune out the source of your anxiety.</span>
+                                </label>
+                                <label class="flex flex-col gap-1 cursor-pointer p-4 rounded border border-gray-200 hover:border-teal-800 transition-colors">
+                                    <div class="flex items-center gap-2">
+                                        <input type="radio" name="survival" value="Over-performance" class="accent-teal-800"> 
+                                        <span class="font-bold text-sm">Over-performance</span>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-5">You take on more work and try to appear extremely productive to mask the feeling of being overwhelmed.</span>
+                                </label>
+                                <label class="flex flex-col gap-1 cursor-pointer p-4 rounded border border-gray-200 hover:border-teal-800 transition-colors">
+                                    <div class="flex items-center gap-2">
+                                        <input type="radio" name="survival" value="Instant Distraction" class="accent-teal-800"> 
+                                        <span class="font-bold text-sm">Instant Distraction</span>
+                                    </div>
+                                    <span class="text-xs text-gray-500 ml-5">You seek immediate hits of relief or dopamine through scrolling, impulsive spending, or consumption.</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 4 -->
+                <div class="space-y-8">
+                    <h3 class="text-xl font-bold border-b border-gray-100 pb-2">Part 4: The Internal Cost <span class="text-sm font-normal text-gray-500 italic">(The Decision Fog)</span></h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block font-semibold mb-2 text-sm">Question 7: The Identity Tax</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">How much of my current stress is caused by trying to maintain an identity (or a lifestyle) that I can't actually afford—either financially or emotionally?</p>
+                            <input type="text" id="input-identity" class="audit-input" placeholder="Reflection on identity...">
+                        </div>
+                        <div>
+                            <label class="block font-semibold mb-2 text-sm">Question 8: The Fog Check</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">What is one specific choice I made recently that I know was driven by "exhaustion" or "burnout" rather than logic?</p>
+                            <input type="text" id="input-fog" class="audit-input" placeholder="The fog-driven choice...">
+                        </div>
+                        <div class="no-print flex justify-center">
+                            <button id="btn-wisdom" onclick="getFinancialNugget()" class="sparkle-btn flex items-center gap-2 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest">
+                                <span>✨ Get Financial Wisdom Nugget</span>
+                            </button>
+                        </div>
+                        <div id="ai-wisdom-result" class="hidden p-4 rounded bg-teal-900 text-white text-sm italic leading-relaxed"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. The Reset -->
+            <section class="space-y-8 bg-teal-50 p-8 rounded-lg border border-teal-100">
+                <div class="flex items-center gap-4">
+                    <span class="bg-teal-800 text-white w-8 h-8 flex items-center justify-center rounded-full font-bold">3</span>
+                    <h2 class="text-2xl font-bold italic">The Reset <span class="text-sm font-normal text-gray-500 italic">(Micro-Regulation)</span></h2>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block font-semibold mb-2 text-sm">The Small Boundary</label>
+                        <p class="text-xs text-gray-500 mb-3 italic">What is one "No" I can say this week that would give me back 10% of my mental capacity?</p>
+                        <input type="text" id="input-no" class="audit-input" placeholder="My small boundary...">
+                    </div>
+                    <div> 
+                        <label class="block font-semibold mb-2 text-sm">The Anchor</label>
+                        <p class="text-xs text-gray-500 mb-3 italic">In moments of high pressure, I will try this regulation technique (as discussed by the clinical psychologists):</p>
+                        <div class="flex gap-4 items-end">
+                            <input type="text" id="input-anchor" class="audit-input flex-grow mb-0" placeholder="My technique...">
+                            <button onclick="speakAnchor()" id="btn-tts" class="no-print p-2 text-teal-800 hover:text-black transition-colors" title="Listen to your anchor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. What Comes Next -->
+            <section class="space-y-4 pt-8 border-t border-gray-100">
+                <h2 class="text-2xl font-bold italic">4. What Comes Next?</h2>
+                <p class="text-sm leading-relaxed text-gray-700">Self-knowledge is the prerequisite for financial health. By naming your "Inner Load" today, you have laid the foundation for <strong>Phase 2: Staying Afloat</strong>, which focuses on your Financial Patterns. In our next session, we will take these insights and look directly at our bank statements. We will explore how these survival modes—avoidance, over-performance, and distraction—show up in our spending and saving. Do not lose this guide; it is the data we will use to build your financial clarity.</p>
+            </section>
+
+            <!-- 5. Social Media -->
+            <footer class="space-y-8 pt-8 text-center">
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold italic">5. Join the Community</h3>
+                    <p class="text-xs text-gray-500">Wellness is a system, not a one-time event. Follow us to stay updated on this journey.</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 font-bold text-[10px] uppercase tracking-widest no-print">
+                    <a href="https://x.com/ywc_ng" target="_blank" class="hover:text-teal-800 transition-colors">Twitter/X</a>
+                    <a href="https://www.instagram.com/yourwellnesscounter/?__pwa=1" target="_blank" class="hover:text-teal-800 transition-colors">Instagram</a>
+                    <a href="https://substack.com/@yourwellnesscounter" target="_blank" class="hover:text-teal-800 transition-colors">Substack</a>
+                    <a href="https://www.linkedin.com/company/110479998/admin/dashboard/" target="_blank" class="hover:text-teal-800 transition-colors">LinkedIn</a>
+                </div>
+                <div class="pt-8 text-[10px] text-gray-400 font-bold uppercase tracking-[0.4em]">
+                    &copy; 2026 YOUR WELLNESS COUNTER
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- UI Overlay elements -->
+    <div id="msg-box" class="hidden fixed bottom-10 left-1/2 -translate-x-1/2 px-8 py-4 bg-black text-white rounded shadow-2xl text-xs z-[100] tracking-widest uppercase transition-all duration-300"></div>
+
+    <script>
+        /**
+         * SECURITY NOTICE: 
+         * For GitHub Pages, you must restrict this key in the Google Cloud Console 
+         * to only work on your domain (e.g., https://yourusername.github.io/*).
+         */
+        const apiKey = "AIzaSyB5mH25eZhhpgj2digTw3BYIGu8RH0NJpE"; 
+
+        function showMessage(msg, duration = 4000) {
+            const box = document.getElementById('msg-box');
+            box.textContent = msg;
+            box.classList.remove('hidden', 'opacity-0');
+            box.classList.add('opacity-100');
+            setTimeout(() => {
+                box.classList.add('opacity-0');
+                setTimeout(() => box.classList.add('hidden'), 500);
+            }, duration);
+        }
+
+        async function geminiCall(prompt, sys, search = false) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: sys }] }
+            };
+            if (search) payload.tools = [{ "google_search": {} }];
+
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const r = await fetch(url, { method: 'POST', body: JSON.stringify(payload) });
+                    const d = await r.json();
+                    return d.candidates[0].content.parts[0].text;
+                } catch (e) {
+                    await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
+                }
+            }
+            throw new Error("API Failure");
+        }
+
+        async function getReflectiveInsight() {
+            const mask = document.getElementById('input-mask').value;
+            const plate = document.getElementById('input-plate').value;
+            if (!mask && !plate) return showMessage("Please share a reflection first.");
+
+            const btn = document.getElementById('btn-analyze');
+            const res = document.getElementById('ai-insight-result');
+            btn.disabled = true;
+            btn.innerHTML = `<div class="spinner"></div> <span>Reflecting...</span>`;
+            res.classList.remove('hidden');
+            res.textContent = "✨ Witnessing your load...";
+
+            try {
+                const sys = "You are a gentle clinical psychologist. Provide a short (under 60 words) validation of the user's load. Help them feel seen and decouple their worth from their output. Be warm and supportive.";
+                const prompt = `Reflections: Masking as ${mask}. Carrying: ${plate}. Help me see the why behind my survival.`;
+                const text = await geminiCall(prompt, sys);
+                res.innerHTML = `<strong>✨ Clinical Reflection:</strong><br>${text}`;
+            } catch (e) {
+                res.classList.add('hidden');
+                showMessage("Service busy. Breathe and try again.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = "<span>✨ Get Reflective Insight</span>";
+            }
+        }
+
+        async function getFinancialNugget() {
+            const btn = document.getElementById('btn-wisdom');
+            const res = document.getElementById('ai-wisdom-result');
+            btn.disabled = true;
+            btn.innerHTML = `<div class="spinner"></div> <span>Searching context...</span>`;
+            res.classList.remove('hidden');
+            res.textContent = "✨ Researching current Nigerian context & tax reforms...";
+
+            try {
+                const sys = "Financial wellness expert focused on Nigeria. Search for recent 2024-2025 tax reforms or economic context affecting young people. Provide 1 short, empowering nugget.";
+                const prompt = "What is one recent tax reform or economic reality in Nigeria that a young person should know about? Reframe it as empowering knowledge rather than just stress.";
+                const text = await geminiCall(prompt, sys, true);
+                res.innerHTML = `<strong>✨ Financial Clarity:</strong><br>${text}`;
+            } catch (e) {
+                res.classList.add('hidden');
+                showMessage("Research failed. Stay grounded.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = "<span>✨ Get Financial Wisdom Nugget</span>";
+            }
+        }
+
+        async function speakAnchor() {
+            const val = document.getElementById('input-anchor').value;
+            if (!val) return showMessage("Write your Anchor technique first.");
+            
+            showMessage("✨ Preparing voice guide...");
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{ parts: [{ text: `In a calm, whispered, supportive voice: "Take a deep breath. Remember your anchor: ${val}. You are safe. You are enough."` }] }],
+                    generationConfig: { 
+                        responseModalities: ["AUDIO"], 
+                        speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } } } 
+                    }
+                };
+                const r = await fetch(url, { method: 'POST', body: JSON.stringify(payload) });
+                const d = await r.json();
+                const audio = d.candidates[0].content.parts[0].inlineData.data;
+                const rate = parseInt(d.candidates[0].content.parts[0].inlineData.mimeType.match(/rate=(\d+)/)?.[1] || 24000);
+                playPCM(audio, rate);
+            } catch (e) {
+                showMessage("Voice service unavailable.");
+            }
+        }
+
+        function playPCM(base64, rate) {
+            const bin = atob(base64);
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            const header = new ArrayBuffer(44);
+            const view = new DataView(header);
+            const writeStr = (v, o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+            writeStr(view, 0, 'RIFF'); view.setUint32(4, 36 + bytes.length, true);
+            writeStr(view, 8, 'WAVE'); writeStr(view, 12, 'fmt ');
+            view.setUint32(16, 16, true); view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true); view.setUint32(24, rate, true);
+            view.setUint32(28, rate * 2, true); view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true); writeStr(view, 36, 'data');
+            view.setUint32(40, bytes.length, true);
+            const blob = new Blob([header, bytes], { type: 'audio/wav' });
+            new Audio(URL.createObjectURL(blob)).play();
+        }
+    </script>
+</body>
+</html>
