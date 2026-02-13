@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YWC Phase 1: The Inner Audit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <script>
+        // Initialize submission flag early to prevent ReferenceError in iframe onload
+        var submitted = false;
+    </script>
+    <style>
+        :root {
+            --primary-teal: #008080;
+            --deep-teal: #006666;
+            --soft-white: #fdfbf7;
+            --text-black: #000000;
+        }
+        body {
+            background-color: var(--primary-teal);
+            color: var(--text-black);
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-black);
+        }
+        .content-card {
+            background-color: var(--soft-white);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .audit-input {
+            background: transparent;
+            border-bottom: 2px solid var(--primary-teal);
+            width: 100%;
+            padding: 12px 0;
+            margin-bottom: 1.5rem;
+            outline: none;
+            color: var(--text-black);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .audit-input:focus {
+            border-bottom-color: var(--deep-teal);
+        }
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .step.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-btn {
+            @apply px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest transition-all;
+        }
+        .btn-next {
+            background-color: var(--text-black);
+            color: white;
+        }
+        .btn-next:hover {
+            background-color: var(--deep-teal);
+        }
+        .btn-back {
+            background-color: transparent;
+            color: #666;
+            border: 1px solid #ccc;
+        }
+        .btn-back:hover {
+            border-color: #000;
+            color: #000;
+        }
+        /* Radio Button Styling */
+        .survival-option {
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        .survival-option:hover {
+            border-color: var(--primary-teal);
+            background-color: rgba(0, 128, 128, 0.05);
+        }
+        .survival-option input:checked + div {
+            font-weight: bold;
+            color: var(--deep-teal);
+        }
+        /* Print Styles */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; padding: 0 !important; }
+            .content-card { box-shadow: none !important; border: none !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            .step { display: block !important; margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 2rem; }
+            .step-header { display: none; } /* Hide navigation header in print */
+            #success-message { display: none; }
+        }
+    </style>
+</head>
+<body class="min-h-screen py-4 px-4 md:py-16">
+
+    <!-- HIDDEN IFRAME FOR THE "MASTER HACK" -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='#success'; displaySuccess();}"></iframe>
+
+    <div class="max-w-3xl mx-auto">
+        <!-- Main Form Container -->
+        <div class="content-card p-6 md:p-12 relative overflow-hidden">
+            
+            <!-- Header (Always Visible) -->
+            <header class="text-center space-y-2 border-b border-gray-100 pb-6 mb-6">
+                <p class="text-[10px] uppercase tracking-[0.3em] font-bold text-teal-700">Your Wellness Counter (YWC) 2026</p>
+                <h1 class="text-3xl md:text-4xl font-bold">The Inner Audit</h1>
+                <p class="text-xs italic text-gray-500">Phase 1: Under Pressure</p>
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 h-1 mt-4 rounded-full overflow-hidden no-print">
+                    <div id="progressBar" class="bg-teal-800 h-1 transition-all duration-500" style="width: 10%"></div>
+                </div>
+            </header>
+
+            <!-- FORM START -->
+            <!-- Updated Action URL based on your provided link -->
+            <form action="https://docs.google.com/forms/d/e/1FAIpQLSfxvG9-V3jxa0iVHeJAlPSuAW_K6N8O4TL4bq9qe5m1QF0-Kg/formResponse" 
+                  method="POST" 
+                  target="hidden_iframe" 
+                  id="auditForm"
+                  onsubmit="submitted=true;">
+
+                <!-- STEP 1: INTRO -->
+                <div class="step active" id="step1">
+                    <div class="space-y-6 text-center">
+                        <h2 class="text-2xl font-bold italic">1. The Mission</h2>
+                        <div class="space-y-4 text-sm leading-relaxed text-gray-700 text-left">
+                            <p><strong>Your Wellness Counter (YWC)</strong> is a student-led wellness platform. This event, "Under Pressure," is designed to help you decouple your worth from your productivity. Our goal is to move from self-blame to self-observation.</p>
+                            
+                            <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-teal-800 space-y-3 text-xs">
+                                <p class="font-bold uppercase tracking-wider text-teal-900">Ethical Guardrails</p>
+                                <ul class="space-y-2 list-disc pl-4 italic text-gray-600">
+                                    <li><strong>Not a Clinical Substitute:</strong> Educational purposes only.</li>
+                                    <li><strong>Safety First:</strong> If overwhelmed, please stop and prioritize safety.</li>
+                                    <li><strong>Privacy:</strong> This workbook is private. Responses are anonymous.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: THE MIRROR -->
+                <div class="step" id="step2">
+                    <h2 class="text-2xl font-bold italic mb-6">Part 1: The Mirror <span class="block text-xs font-normal text-gray-500 not-italic mt-1">Current Capacity</span></h2>
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block font-bold text-sm mb-2">Question 1: The Mask</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">If you allowed yourself one day without trying to be strong or okay, what do you think your mind or body would ask for first?</p>
+                            <input type="text" name="entry.918398696" class="audit-input" placeholder="Type here..." required>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-sm mb-2">Question 2: The Invisible List</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">What are three things you’re doing mostly because you have to? (e.g., lending money, extra tasks, attending events).</p>
+                            <input type="text" name="entry.1528181485" class="audit-input" placeholder="1. 2. 3..." required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: THE BODY -->
+                <div class="step" id="step3">
+                    <h2 class="text-2xl font-bold italic mb-6">Part 2: The Body <span class="block text-xs font-normal text-gray-500 not-italic mt-1">Locating the Stress</span></h2>
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block font-bold text-sm mb-2">Question 3: The Physical Alarm</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">Notice the last time your account looked low or your list felt endless — did your chest tighten, jaw clench? Where does your body “ring the alarm”?</p>
+                            <input type="text" name="entry.374221506" class="audit-input" placeholder="Describe the sensation..." required>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-sm mb-2">Question 4: Low-Battery Signal</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">Think of the last time you pushed too far: what tells you you’ve crossed the line (fast heartbeat, mind fog, exhaustion)?</p>
+                            <input type="text" name="entry.345194869" class="audit-input" placeholder="My warning sign is..." required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: THE ROOTS -->
+                <div class="step" id="step4">
+                    <h2 class="text-2xl font-bold italic mb-6">Part 3: The Roots <span class="block text-xs font-normal text-gray-500 not-italic mt-1">The Survival Story</span></h2>
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block font-bold text-sm mb-2">Question 5: The Family Script</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">Remember your home growing up: what was never said but always felt about working hard? A phrase or expectation that shaped you.</p>
+                            <input type="text" name="entry.131462473" class="audit-input" placeholder="The unspoken rule..." required>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-sm mb-4">Question 6: The Survival Mode</label>
+                            <p class="text-xs text-gray-500 mb-4 italic">When pressure gets loud, which of these feels most like you?</p>
+                            
+                            <!-- UPDATED: Using entry.1289983967 for all radio buttons -->
+                            <div class="space-y-3">
+                                <label class="survival-option flex items-start gap-3">
+                                    <input type="radio" name="entry.1289983967" value="Avoidance" class="mt-1 accent-teal-800" required>
+                                    <div>
+                                        <span class="block text-sm font-bold text-teal-900">A. The Disappearing Act (Avoidance)</span>
+                                        <span class="text-xs text-gray-600">“I’ll deal with it later...” scrolling to forget bills or deadlines.</span>
+                                    </div>
+                                </label>
+                                <label class="survival-option flex items-start gap-3">
+                                    <input type="radio" name="entry.1289983967" value="Over-performance" class="mt-1 accent-teal-800">
+                                    <div>
+                                        <span class="block text-sm font-bold text-teal-900">B. The Overdrive Switch (Over-performance)</span>
+                                        <span class="text-xs text-gray-600">“If I just do more...” piling on tasks to mask the overwhelm.</span>
+                                    </div>
+                                </label>
+                                <label class="survival-option flex items-start gap-3">
+                                    <input type="radio" name="entry.1289983967" value="Instant Distraction" class="mt-1 accent-teal-800">
+                                    <div>
+                                        <span class="block text-sm font-bold text-teal-900">C. The Escape Route (Instant Distraction)</span>
+                                        <span class="text-xs text-gray-600">“Switch off my brain...” gaming, binge-watching, or eating to stop thinking.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 5: INTERNAL COST -->
+                <div class="step" id="step5">
+                    <h2 class="text-2xl font-bold italic mb-6">Part 4: Internal Cost <span class="block text-xs font-normal text-gray-500 not-italic mt-1">The Decision Fog</span></h2>
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block font-bold text-sm mb-2">Question 7: The Identity Tax</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">Which pressures came from trying to look like you had it all together (image, lifestyle, persona) instead of what you could actually handle?</p>
+                            <input type="text" name="entry.238365591" class="audit-input" placeholder="Reflection..." required>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-sm mb-2">Question 8: The Fog Check</label>
+                            <p class="text-xs text-gray-500 mb-3 italic">Think of a choice where you didn't stop to think, you just reacted. How can you see now that tiredness, not logic, drove it?</p>
+                            <input type="text" name="entry.915008336" class="audit-input" placeholder="The choice..." required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 6: RESET -->
+                <div class="step" id="step6">
+                    <div class="bg-teal-50 p-6 rounded-lg border border-teal-100 mb-6">
+                        <h2 class="text-2xl font-bold italic mb-2">3. The Reset <span class="block text-xs font-normal text-gray-500 not-italic mt-1">Micro-Regulation</span></h2>
+                        <div class="space-y-6 mt-6">
+                            <div>
+                                <label class="block font-bold text-sm mb-2">The Small Boundary</label>
+                                <p class="text-xs text-gray-500 mb-2 italic">What is one thing you can say “No” to this week?</p>
+                                <input type="text" name="entry.1908160178" class="audit-input" placeholder="My No is..." required>
+                            </div>
+                            <div>
+                                <label class="block font-bold text-sm mb-2">The Anchor</label>
+                                <p class="text-xs text-gray-500 mb-2 italic">When pressure rises, what is one simple grounding action you can return to?</p>
+                                <input type="text" name="entry.376726671" class="audit-input mb-0" placeholder="My anchor is..." required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NAVIGATION BUTTONS -->
+                <div class="flex justify-between items-center mt-8 no-print">
+                    <button type="button" id="prevBtn" class="nav-btn btn-back hidden" onclick="changeStep(-1)">Back</button>
+                    <button type="button" id="nextBtn" class="nav-btn btn-next ml-auto" onclick="changeStep(1)">Next Step</button>
+                    <button type="submit" id="submitBtn" class="nav-btn btn-next ml-auto hidden bg-teal-800">Complete Audit</button>
+                </div>
+
+            </form> <!-- FORM END -->
+
+            <!-- SUCCESS SCREEN (Hidden Initially) -->
+            <div id="successScreen" class="hidden text-center space-y-8 animate-fadeIn">
+                <div class="bg-green-50 p-6 rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-teal-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold">Audit Complete.</h2>
+                <p class="text-sm text-gray-600 max-w-md mx-auto">
+                    You have named your Inner Load. This is the first step.
+                    <br><br>
+                    <strong>What Comes Next?</strong><br>
+                    Phase 2: Staying Afloat (Financial Patterns). We will use this data to build your financial clarity.
+                </p>
+                
+                <button onclick="window.print()" class="flex items-center justify-center gap-3 bg-black text-white px-8 py-4 rounded-full shadow-2xl hover:bg-teal-900 transition-all font-bold text-xs uppercase tracking-widest mx-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Save My Responses (PDF)</span>
+                </button>
+
+                <div class="pt-8 border-t border-gray-100">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Join the Community</p>
+                    <div class="flex flex-wrap justify-center gap-4 text-[10px] uppercase font-bold text-teal-800">
+                        <a href="https://x.com/ywc_ng" target="_blank" class="hover:underline">Twitter/X</a>
+                        <a href="https://www.instagram.com/yourwellnesscounter/" target="_blank" class="hover:underline">Instagram</a>
+                        <a href="https://substack.com/@yourwellnesscounter" target="_blank" class="hover:underline">Substack</a>
+                        <a href="https://www.linkedin.com/company/110479998/admin/dashboard/" target="_blank" class="hover:underline">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="mt-auto pt-8 text-center border-t border-gray-100 no-print" id="mainFooter">
+                <div class="text-[10px] text-gray-400 font-bold uppercase tracking-[0.4em]">
+                    &copy; 2026 YOUR WELLNESS COUNTER
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        function changeStep(n) {
+            // Validate current step before moving
+            if (n === 1 && !validateStep(currentStep)) return;
+
+            // Hide current
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // Increment
+            currentStep += n;
+            
+            // Show new
+            document.getElementById(`step${currentStep}`).classList.add('active');
+
+            // Update UI
+            updateUI();
+        }
+
+        function updateUI() {
+            // Progress Bar
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+
+            // Buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (currentStep === 1) {
+                prevBtn.classList.add('hidden');
+            } else {
+                prevBtn.classList.remove('hidden');
+            }
+
+            if (currentStep === totalSteps) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+
+            // Scroll to top of card
+            document.querySelector('.content-card').scrollTop = 0;
+        }
+
+        function validateStep(step) {
+            const currentStepEl = document.getElementById(`step${step}`);
+            const inputs = currentStepEl.querySelectorAll('input[required]');
+            let valid = true;
+            inputs.forEach(input => {
+                if (!input.value) {
+                    valid = false;
+                    input.style.borderColor = "red";
+                } else {
+                    input.style.borderColor = "var(--primary-teal)";
+                }
+            });
+            return valid;
+        }
+
+        // Handle Success - Triggered by iframe onload
+        function displaySuccess() {
+            document.getElementById('auditForm').style.display = 'none';
+            document.querySelector('.no-print').style.display = 'none'; // Hide nav buttons
+            document.getElementById('mainFooter').style.display = 'none';
+            
+            document.getElementById('successScreen').classList.remove('hidden');
+            
+            // Update progress bar to full
+            document.getElementById('progressBar').style.width = '100%';
+            document.getElementById('progressBar').className = "bg-green-600 h-1";
+        }
+    </script>
+</body>
+</html>
